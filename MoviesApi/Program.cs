@@ -20,7 +20,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Version = "v1",
         Title = "Test Api",
-        Description = "My First API",
+        Description = $"For SAQAYA Test Proeject https://saqaya.coderbyte.com/question/user-api-net-core-blaysb11x7 ",
         TermsOfService = new Uri(uriString: "https://www.google.com"),
         Contact = new OpenApiContact
         {

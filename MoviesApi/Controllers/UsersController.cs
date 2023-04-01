@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MoviesApi.Dtos;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,21 +17,17 @@ namespace MoviesApi.Controllers
             _context = context;
         }
 
+
+        // GET: api/<UsersController>
         [HttpGet]
         public async Task<ActionResult> GetAllAsync()
         {
-            var genres = await _context.Genres.ToListAsync();
+            var genres = await _context.Users.ToListAsync();
             return Ok(genres);
 
         }
 
-        // GET: api/<UsersController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
+        
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
         public string Get(int id)
@@ -40,8 +37,23 @@ namespace MoviesApi.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO dto)
         {
+            // Create Id from SHA1 of the Email Address, salted with “450d0b0db2bcf4adde5032eca1a7c416e560cf44” string 
+
+
+            var user = new User
+            {
+                Id = dto.HashPasword(dto.Email),
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Email = dto.Email,
+                MarketingConsent = dto.MarketingConsent,
+            };
+            await _context.Users.AddAsync(user); // or  _context.AddAsync(user);
+            _context.SaveChanges();
+            return Ok(user.Id);
+
         }
 
         // PUT api/<UsersController>/5
