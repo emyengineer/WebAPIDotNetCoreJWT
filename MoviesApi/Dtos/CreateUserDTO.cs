@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -7,7 +8,6 @@ namespace MoviesApi.Dtos
     public class CreateUserDTO
     {
         
-        public string Id { get; set ; }
         [Required]
         public string FirstName { get; set; }
         [Required]
