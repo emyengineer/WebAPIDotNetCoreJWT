@@ -10,5 +10,7 @@ namespace MoviesApi.Models
         }
 
         public DbSet<Genre> Genres { get; set; }
+
+        public DbSet<User> Users { get; set; }
     }
 }

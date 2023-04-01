@@ -24,8 +24,8 @@ builder.Services.AddSwaggerGen(options =>
         TermsOfService = new Uri(uriString: "https://www.google.com"),
         Contact = new OpenApiContact
         {
-            Name = "Muhammed",
-            Email = "test@domain.com",
+            Name = "Eman",
+            Email = "emyengineer@gmail.com",
             Url = new Uri(uriString: "https://www.google.com")
         },
         License = new OpenApiLicense
