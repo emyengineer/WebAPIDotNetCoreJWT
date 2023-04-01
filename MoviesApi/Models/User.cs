@@ -15,5 +15,6 @@ namespace MoviesApi.Models
 
         public bool MarketingConsent { get; set; }
 
+
     }
 }

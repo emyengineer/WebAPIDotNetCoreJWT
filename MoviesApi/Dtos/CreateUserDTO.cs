@@ -10,16 +10,21 @@ namespace MoviesApi.Dtos
         
         [Required]
         public string FirstName { get; set; }
+
         [Required]
         public string LastName { get; set; }
 
-        [Required]
+       // [Required]
         [EmailAddress]
         public string Email { get; set; }
 
         [Required]
         public bool MarketingConsent { get; set; }
 
+
+
+        // Hash Function used in .Net Frame Work 6 
+        // Reference 
         const int keySize = 64;
         const int iterations = 350000;
         HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
