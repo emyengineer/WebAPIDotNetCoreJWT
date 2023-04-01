@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace MoviesApi.Models
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :base(options)
         {
@@ -11,6 +12,6 @@ namespace MoviesApi.Models
 
         public DbSet<Genre> Genres { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public override DbSet<User> Users { get; set; }
     }
 }

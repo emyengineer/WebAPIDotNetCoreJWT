@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MoviesApi.Models
 {
+    //This Class is created as an initial start class and not important 
     public class Genre
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
