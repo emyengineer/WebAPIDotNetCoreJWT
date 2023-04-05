@@ -54,12 +54,12 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
         Title = "Test Api",
         Description = $"For SAQAYA Test Project https://saqaya.coderbyte.com/question/user-api-net-core-blaysb11x7 ",
-        TermsOfService = new Uri(uriString: "https://www.google.com"),
+        TermsOfService = new Uri(uriString: "https://github.com/emyengineer"),
         Contact = new OpenApiContact
         {
             Name = "Eman",
             Email = "emyengineer@gmail.com",
-            Url = new Uri(uriString: "https://www.google.com")
+            Url = new Uri(uriString: "https://github.com/emyengineer")
         },
         License = new OpenApiLicense
         {

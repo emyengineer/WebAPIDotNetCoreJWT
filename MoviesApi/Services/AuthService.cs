@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MoviesApi.Helpers;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -70,6 +71,39 @@ namespace MoviesApi.Services
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
                 UserName = user.UserName
             };
+        }
+
+        public async Task<AuthModel> GetTokenAsync(TokenRequestModel model)
+        {
+            var authModel = new AuthModel();
+
+            var user = await _userManager.FindByIdAsync(model.Id);
+
+            //user = await _userManager.FindByEmailAsync(model.Email);
+            //!await _userManager.CheckPasswordAsync(user, model.Password)
+
+            if (user == null) {
+                authModel.Message = "User ID Or Email or Password is incorrect";
+                return authModel;
+            }
+
+            var jwtSecurityToken = await CreateJwtSecurityToken(user);
+            var rolesList = await _userManager.GetRolesAsync(user);
+
+            authModel.Id = user.Id;
+            authModel.IsAuthenticated = true;
+            authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            authModel.Email = user.Email;
+            authModel.UserName = user.UserName;
+            authModel.ExpiresOn = jwtSecurityToken.ValidTo;
+            authModel.MarketingConsent = user.MarketingConsent;
+            authModel.FirstName = user.FirstName; authModel.LastName = user.LastName;
+
+
+            authModel.Roles = rolesList.ToList();
+
+           
+            return authModel;
         }
 
         private async Task<JwtSecurityToken> CreateJwtSecurityToken(User user)

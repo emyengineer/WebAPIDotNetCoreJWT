@@ -30,5 +30,58 @@ namespace MoviesApi.Controllers
 
            // return Ok(result);
         }
+
+        [HttpPost("token")]
+        public async Task<IActionResult> GetTokenAsync([FromBody]TokenRequestModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _authService.GetTokenAsync(model);
+
+            if (!result.IsAuthenticated)
+                return BadRequest(result.Message);
+
+            if(!result.MarketingConsent)
+            {
+                return Ok(new {Id = result.Id, accessToken = result.Token,
+                    FirstName = result.FirstName, LastName = result.LastName, MarketingConsent = result.MarketingConsent});
+            }
+
+            //return Ok(new { Id = result.Id, accessToken = result.Token, expiresOn = result.ExpiresOn });
+
+            return Ok(result);
+        }
+
+        [HttpGet("UserById")]
+        public async Task<IActionResult> GetUserByIdAsync(string Id)
+        {
+            TokenRequestModel model = new TokenRequestModel { Id = Id};
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _authService.GetTokenAsync(model);
+
+            if (!result.IsAuthenticated)
+                return BadRequest(result.Message);
+
+            if (!result.MarketingConsent)
+            {
+                return Ok(new
+                {
+                    Id = result.Id,
+                    accessToken = result.Token,
+                    FirstName = result.FirstName,
+                    LastName = result.LastName,
+                    MarketingConsent = result.MarketingConsent
+                });
+            }
+
+            //return Ok(new { Id = result.Id, accessToken = result.Token, expiresOn = result.ExpiresOn });
+
+            return Ok(result);
+        }
+
+
     }
 }
