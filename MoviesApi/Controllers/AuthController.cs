@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MoviesApi.Services;
 
 namespace MoviesApi.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -45,7 +47,7 @@ namespace MoviesApi.Controllers
             if(!result.MarketingConsent)
             {
                 return Ok(new {Id = result.Id, accessToken = result.Token,
-                    FirstName = result.FirstName, LastName = result.LastName, MarketingConsent = result.MarketingConsent});
+                    FirstName = result.FirstName, LastName = result.LastName, MarketingConsent = result.MarketingConsent, roles=result.Roles});
             }
 
             //return Ok(new { Id = result.Id, accessToken = result.Token, expiresOn = result.ExpiresOn });

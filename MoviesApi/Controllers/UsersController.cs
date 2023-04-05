@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.Dtos;
 using MoviesApi.Models;
@@ -8,6 +9,7 @@ using MoviesApi.ViewModels;
 
 namespace MoviesApi.Controllers
 {
+    //[Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
