@@ -12,12 +12,13 @@ namespace MoviesApi.Services
     public class AuthService : IAuthService
     {
         private readonly UserManager<User> _userManager;
-
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JWT _jwt;
 
-        public AuthService(UserManager<User>  userManager, IOptions<JWT> jwt)
+        public AuthService(UserManager<User>  userManager, RoleManager<IdentityRole> roleManager, IOptions<JWT> jwt)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _jwt = jwt.Value;
         }
 
@@ -137,6 +138,24 @@ namespace MoviesApi.Services
                 signingCredentials: signingCredentials);
 
             return jwtSecurityToken;
+        }
+
+        public async Task<string> AddRoleAsync(AddRoleModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.UserId);
+            if(user is null || !await _roleManager.RoleExistsAsync(model.RoleName)) {
+                return "Invalid User Id or Role ";
+            }
+            
+            if(await _userManager.IsInRoleAsync(user, model.RoleName))
+            {
+                return "User already assigned to this role";
+            }
+            var result = await _userManager.AddToRoleAsync(user, model.RoleName);
+
+            return result.Succeeded?  string.Empty : "something went wrong ";
+
+
         }
     }
 }

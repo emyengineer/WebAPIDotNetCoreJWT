@@ -7,7 +7,7 @@
 
         Task<AuthModel> GetTokenAsync(TokenRequestModel model);
 
-
+        Task<string> AddRoleAsync(AddRoleModel model);
 
 
 
